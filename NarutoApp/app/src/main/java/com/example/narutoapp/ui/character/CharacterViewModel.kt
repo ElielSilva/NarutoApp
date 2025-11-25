@@ -13,44 +13,71 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+//class CharacterViewModel : ViewModel() {
+//    private val _uiState = MutableStateFlow<UiState<AllCharacter>>(UiState.Loading)
+//    val uiState = _uiState.asStateFlow()
+//    private val _repository = CharacterRepository(ClientRetrofit)
+//
+//    init {
+//        viewModelScope.launch {
+//            try {
+//                withContext(Dispatchers.IO) {
+//                    fetch()
+//                }
+//            } catch (ex: Exception) {
+//                _uiState.update {
+//                    UiState.Error(ex.message.toString())
+//                }
+//            }
+//        }
+//    }
+//
+//    private suspend fun fetch() {
+//
+//        viewModelScope.launch {
+//            try {
+//                val data = withContext(Dispatchers.IO) {
+//                    _repository.getAll()
+//                }
+//                if (data != null) {
+//                    _uiState.update {
+//                        UiState.Success(data)
+//                    }
+//                }
+//            } catch (ex: Exception) {
+//                _uiState.update {
+//                    UiState.Error(ex.message.toString())
+//                }
+//            }
+//        }
+//
+//
+//    }
+//}
+
 class CharacterViewModel : ViewModel() {
+
     private val _uiState = MutableStateFlow<UiState<AllCharacter>>(UiState.Loading)
     val uiState = _uiState.asStateFlow()
-    private val _repository = CharacterRepository(ClientRetrofit)
+
+    private val repository = CharacterRepository(ClientRetrofit)
 
     init {
-        viewModelScope.launch {
-            try {
-                withContext(Dispatchers.IO) {
-                    fetch()
-                }
-            } catch (ex: Exception) {
-                _uiState.update {
-                    UiState.Error(ex.message.toString())
-                }
-            }
-        }
+        fetch()
     }
 
-    private suspend fun fetch() {
-
-        viewModelScope.launch {
+    private fun fetch() {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
-                val data = withContext(Dispatchers.IO) {
-                    _repository.getAll()
-                }
+                val data = repository.getAll()
                 if (data != null) {
-                    _uiState.update {
-                        UiState.Success(data)
-                    }
+                    _uiState.value = UiState.Success(data)
+                } else {
+                    _uiState.value = UiState.Error("No data returned from repository")
                 }
             } catch (ex: Exception) {
-                _uiState.update {
-                    UiState.Error(ex.message.toString())
-                }
+                _uiState.value = UiState.Error(ex.message ?: "Unknown error")
             }
         }
-
-
     }
 }
