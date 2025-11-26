@@ -25,13 +25,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.narutoapp.utils.UiState
 import coil.compose.AsyncImage
 import com.example.narutoapp.models.AllCharacterItem
 
 @Composable
 fun CharacterScreen(
-    characterViewModel: CharacterViewModel
+//    characterViewModel: CharacterViewModel
+    characterViewModel: CharacterViewModel = viewModel()
+//    characterViewModel: CharacterViewModel = androidx.lifecycle.viewmodel.compose.viewModel()
 ) {
     val uiState by characterViewModel.uiState.collectAsState()
 
