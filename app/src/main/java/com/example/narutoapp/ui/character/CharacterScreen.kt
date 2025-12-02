@@ -1,5 +1,7 @@
 package com.example.narutoapp.ui.character
 
+import android.util.Log
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -23,18 +25,19 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.narutoapp.utils.UiState
 import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.example.narutoapp.models.AllCharacterItem
 
 @Composable
 fun CharacterScreen(
-//    characterViewModel: CharacterViewModel
+    onPersonagemClick: (id: Int) -> Unit = {},
     characterViewModel: CharacterViewModel = viewModel()
-//    characterViewModel: CharacterViewModel = androidx.lifecycle.viewmodel.compose.viewModel()
 ) {
     val uiState by characterViewModel.uiState.collectAsState()
 
@@ -73,7 +76,11 @@ fun CharacterScreen(
                    horizontalArrangement = Arrangement.spacedBy(8.dp)
                ) {
                    items(allCharacter) { character ->
-                       CharacterItem(character = character)
+                       Log.d("PersonagemClick", "ID ${character.id} clicado. Chamando onPersonagemClick.")
+                       CharacterItem(
+                           character = character,
+                           onPersonagemClick = onPersonagemClick
+                       )
                    }
                }
            }
@@ -82,7 +89,13 @@ fun CharacterScreen(
 }
 
 @Composable
-fun CharacterItem(character: AllCharacterItem) {
+fun CharacterItem(
+    character: AllCharacterItem,
+    onPersonagemClick: (id: Int) -> Unit
+) {
+
+    val context = LocalContext.current
+
     Card(
         modifier = Modifier.fillMaxWidth(),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
@@ -94,13 +107,21 @@ fun CharacterItem(character: AllCharacterItem) {
             modifier =
                 Modifier.padding(8.dp)
                     .fillMaxWidth()
-                    .height(250.dp),
+                    .height(250.dp)
+                    .clickable {
+                        Log.d("PersonagemClick", "ID ${character.id} clicado. Chamando onPersonagemClick.")
+                        onPersonagemClick(character.id)
+                    },
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Spacer(modifier = Modifier.width(8.dp))
             Column {
                 AsyncImage(
-                    model = character.profile_image,
+                    model = ImageRequest.Builder(context)
+                        .data(character.images.firstOrNull())
+                        .crossfade(true)
+                        .size(300)
+                        .build(),
                     contentDescription = "image of $character.name",
                     alignment = Alignment.Center,
                     modifier = Modifier.fillMaxWidth()
