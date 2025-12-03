@@ -6,7 +6,7 @@ import com.example.narutoapp.services.IClient
 import com.example.narutoapp.services.INarutoApi
 import retrofit2.create
 
-class CharacterRepository(private val clientService: IClient) : ICharacterRepository  {
+class CharacterRepositoryImpl(private val clientService: IClient) : ICharacterRepository  {
     private val instance: INarutoApi = clientService.getInstance().create<INarutoApi>()
 
     override suspend fun getAll(): AllCharacter? {
