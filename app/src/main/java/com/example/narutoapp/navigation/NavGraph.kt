@@ -14,7 +14,7 @@ fun NavGraph(navController: NavHostController) {
         startDestination = Routes.Login.route
     ) {
         composable(Routes.Login.route) { LoginScreen(onLoginSuccess = {
-            navController.navigate("home")
+            navController.navigate("Personagens")
         }) }
         composable(Routes.Personagens.route) { CharacterScreen() }
         composable(Routes.Personagem.route) { CharacterScreen() }
