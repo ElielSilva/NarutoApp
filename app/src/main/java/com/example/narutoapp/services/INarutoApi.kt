@@ -2,6 +2,7 @@ package com.example.narutoapp.services
 
 import com.example.narutoapp.models.AllCharacter
 import com.example.narutoapp.models.AllCharacterItem
+import com.example.narutoapp.models.Character
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
