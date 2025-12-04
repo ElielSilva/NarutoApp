@@ -17,7 +17,6 @@ fun NavGraph(navController: NavHostController) {
         navController = navController,
         startDestination = Routes.Login.route
     ) {
-
         composable(Routes.Personagens.route) {
             CharacterScreen(
                 onPersonagemClick = { id ->
@@ -38,8 +37,11 @@ fun NavGraph(navController: NavHostController) {
 
 //        composable(Routes.Favoritos.route) { CharacterScreen() }
 //        composable(Routes.Vilas.route) { CharacterScreen() }
-        composable(Routes.Login.route) { LoginScreen(onLoginSuccess = {
-            navController.navigate("Personagens")
-        }) }
+        composable(Routes.Login.route) {
+            Log.d("NAV_DEBUG", "Tentando ir para tela de personagens após login")
+            LoginScreen(onLoginSuccess = {
+                navController.navigate("Personagens")
+            })
+        }
     }
 }

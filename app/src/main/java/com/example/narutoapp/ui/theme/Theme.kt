@@ -37,7 +37,8 @@ private val LightColorScheme = lightColorScheme(
 
 @Composable
 fun NarutoAppTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
+    darkTheme: Boolean = true,
+//    darkTheme: Boolean = isSystemInDarkTheme(),
     dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {

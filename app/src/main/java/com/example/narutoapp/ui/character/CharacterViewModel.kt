@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.narutoapp.models.AllCharacter
-import com.example.narutoapp.repository.character.CharacterRepository
+import com.example.narutoapp.repository.character.CharacterRepositoryImpl
 import com.example.narutoapp.services.ClientRetrofit
 import com.example.narutoapp.utils.UiState
 import kotlinx.coroutines.Dispatchers
@@ -61,7 +61,7 @@ class CharacterViewModel : ViewModel() {
     private val _uiState = MutableStateFlow<UiState<AllCharacter>>(UiState.Loading)
     val uiState = _uiState.asStateFlow()
 
-    private val repository = CharacterRepository(ClientRetrofit)
+    private val repository = CharacterRepositoryImpl(ClientRetrofit)
 
     init {
         fetch()
