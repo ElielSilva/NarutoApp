@@ -4,7 +4,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object ClientRetrofit : IClient {
-    private const val BASE_URL = "https://naruto-br-api.site"
+    private const val BASE_URL = "https://express-js-on-vercel-kappa-ashy-74.vercel.app/" //""https://dattebayo-api.onrender.com" //"https://naruto-br-api.site"
 
     override fun getInstance(): Retrofit {
         return Retrofit
