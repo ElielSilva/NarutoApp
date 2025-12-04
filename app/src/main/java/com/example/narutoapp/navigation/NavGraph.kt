@@ -9,23 +9,14 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.narutoapp.ui.character.CharacterScreen
 import com.example.narutoapp.ui.characterDetails.CharacterDetailsScreen
+import com.example.narutoapp.ui.login.LoginScreen
 
 @Composable
 fun NavGraph(navController: NavHostController) {
-//    NavHost(
-//        navController = navController,
-//        startDestination = Routes.Personagens.route
-//    ) {
-//        composable(Routes.Personagens.route) { CharacterScreen() }
-//        composable(Routes.Personagem.route) { CharacterScreen() }
-//        composable(Routes.Favoritos.route) { CharacterScreen() }
-//        composable(Routes.Vilas.route) { CharacterScreen() }
-//    }
     NavHost(
         navController = navController,
-        startDestination = Routes.Personagens.route
+        startDestination = Routes.Login.route
     ) {
-
         composable(Routes.Personagens.route) {
             CharacterScreen(
                 onPersonagemClick = { id ->
@@ -46,5 +37,11 @@ fun NavGraph(navController: NavHostController) {
 
 //        composable(Routes.Favoritos.route) { CharacterScreen() }
 //        composable(Routes.Vilas.route) { CharacterScreen() }
+        composable(Routes.Login.route) {
+            Log.d("NAV_DEBUG", "Tentando ir para tela de personagens após login")
+            LoginScreen(onLoginSuccess = {
+                navController.navigate("Personagens")
+            })
+        }
     }
 }
