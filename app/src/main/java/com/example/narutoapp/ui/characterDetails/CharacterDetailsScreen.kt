@@ -102,17 +102,6 @@ fun CharacterDetailsContent(character: AllCharacterItem) {
 
         Spacer(Modifier.height(20.dp))
 
-        Text("Debut", style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.primary)
-        Text("Manga: ${character.debut.manga}")
-        Text("Anime: ${character.debut.anime}")
-        Text("Novel: ${character.debut.novel}")
-        Text("Movie: ${character.debut.movie}")
-        Text("Game: ${character.debut.game}")
-        Text("OVA: ${character.debut.ova}")
-        Text("Appears In: ${character.debut.appearsIn}")
-
-        Spacer(Modifier.height(20.dp))
-
         Text("Family", style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.primary)
         character.family.forEach { (k, v) ->
             Text("${k.replaceFirstChar { it.uppercase() }}: $v")
@@ -125,21 +114,8 @@ fun CharacterDetailsContent(character: AllCharacterItem) {
         if (character.jutsu.size > 10) Text("... +${character.jutsu.size - 10} more")
 
         Spacer(Modifier.height(20.dp))
-
-        Text("Nature Types", style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.primary)
-        character.natureType.forEach { Text("• $it") }
+        Text("Clã: ${character.clan}")
 
         Spacer(Modifier.height(20.dp))
-
-        Text("Personal Info", style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.primary)
-        Text("Birthdate: ${character.personal.birthdate}")
-        Text("Sex: ${character.personal.sex}")
-        Text("Blood Type: ${character.personal.bloodType}")
-        Text("Clan: ${character.personal.clan}")
-
-        Spacer(Modifier.height(20.dp))
-
-        Text("Tools", style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.primary)
-        character.tools.forEach { Text("• $it") }
     }
 }
