@@ -1,5 +1,6 @@
 package com.example.narutoapp.ui.login
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -23,6 +24,8 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
@@ -32,6 +35,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.narutoapp.R
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -205,7 +209,11 @@ fun LoginScreen(
                 }
 
                 uiState.loginError?.let { error ->
-                    Spacer(modifier = Modifier.height(16.dp))
+                    val context = LocalContext.current
+
+                    LaunchedEffect(error) {
+                        Toast.makeText(context, error, Toast.LENGTH_LONG).show()
+                    }
                     Text(
                         text = error,
                         color = MaterialTheme.colorScheme.error,

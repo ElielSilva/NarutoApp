@@ -30,18 +30,6 @@ class LoginViewModel : ViewModel() {
         val email = _uiState.value.email
         val password = _uiState.value.password
 
-        val emailError = validateEmail(email)
-        val passwordError = validatePassword(password)
-
-        if (emailError != null || passwordError != null) {
-            _uiState.update {
-                it.copy(
-                    emailError = emailError,
-                    passwordError = passwordError
-                )
-            }
-            return
-        }
         performLogin(email, password)
     }
 
