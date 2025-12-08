@@ -2,6 +2,9 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+
+//    id("com.google.devtools.ksp")
+    id("com.google.devtools.ksp") version "1.9.22-1.0.17"
 }
 
 android {
@@ -66,4 +69,19 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation("androidx.compose.material:material-icons-extended:1.6.1")
     implementation(libs.androidx.room.ktx)
+
+
+    val room_version = "2.8.4"
+
+    implementation("androidx.room:room-runtime:$room_version")
+
+    // KSP (necessário para Room)
+    ksp("androidx.room:room-compiler:$room_version")
+
+    // Extensions Kotlin
+    implementation("androidx.room:room-ktx:$room_version")
+
+    // Paging (opcional)
+    implementation("androidx.room:room-paging:$room_version")
+
 }

@@ -3,7 +3,6 @@ package com.example.narutoapp.ui.characterDetails
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.narutoapp.models.AllCharacterItem
 import com.example.narutoapp.repository.character.CharacterRepositoryImpl
 import com.example.narutoapp.services.ClientRetrofit
 import com.example.narutoapp.utils.UiState
@@ -40,6 +39,22 @@ class CharacterDetailsViewModel(private val id: Int) : ViewModel() {
                 Log.e("CharacterViewModel", "Erro ao buscar personagens", ex)
                 _uiState.value = UiState.Error(ex.message ?: "Unknown error")
             }
+        }
+    }
+
+    fun toggleFavorite() {
+        val state = _uiState.value
+        if (state is UiState.Success) {
+
+            val updated = state.data.copy(
+                isFavorite = !state.data.isFavorite
+            )
+
+
+            _uiState.value = UiState.Success(updated)
+
+
+            // repository.saveFavorite(updated)
         }
     }
 }

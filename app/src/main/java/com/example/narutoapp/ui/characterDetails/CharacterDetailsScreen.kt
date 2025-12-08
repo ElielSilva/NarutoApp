@@ -12,12 +12,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import com.example.narutoapp.models.AllCharacterItem
 
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.*
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -73,9 +75,15 @@ fun CharacterDetailsScreen(
 }
 
 @Composable
-fun CharacterDetailsContent(character: AllCharacterItem) {
+fun CharacterDetailsContent(
+    character: AllCharacterItem,
+    viewModel: CharacterDetailsViewModel
+) {
 
-    val context = LocalContext.current
+    val uiState by viewModel.uiState.collectAsState()
+    val isFavorite = uiState.let {
+        if (it is UiState.Success) it.data.isFavorite else false
+    }
 
     Column(
         modifier = Modifier
@@ -84,13 +92,29 @@ fun CharacterDetailsContent(character: AllCharacterItem) {
             .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.Start
     ) {
-        AsyncImage(
-            model = character.images.firstOrNull(),
-            contentDescription = "Image of ${character.name}",
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(300.dp)
-        )
+
+        Box(modifier = Modifier.fillMaxWidth()) {
+            AsyncImage(
+                model = character.images.firstOrNull(),
+                contentDescription = "Image of ${character.name}",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(300.dp)
+            )
+
+            IconButton(
+                onClick = { viewModel.toggleFavorite(character.id) },
+                modifier = Modifier
+                    .align(Alignment.TopEnd)
+                    .padding(12.dp)
+            ) {
+                Icon(
+                    imageVector = if (isFavorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
+                    contentDescription = "Toggle Favorite",
+                    tint = if (isFavorite) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface
+                )
+            }
+        }
 
         Spacer(Modifier.height(16.dp))
 
@@ -114,6 +138,7 @@ fun CharacterDetailsContent(character: AllCharacterItem) {
         if (character.jutsu.size > 10) Text("... +${character.jutsu.size - 10} more")
 
         Spacer(Modifier.height(20.dp))
+
         Text("Clã: ${character.clan}")
 
         Spacer(Modifier.height(20.dp))

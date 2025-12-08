@@ -34,7 +34,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.example.narutoapp.models.AllCharacterItem
+import com.example.narutoapp.models.Character
 import com.example.narutoapp.utils.UiState
 
 @Composable
@@ -94,7 +94,7 @@ fun CharacterScreen(
 
 @Composable
 fun CharacterItem(
-    character: AllCharacterItem,
+    character: Character,
     onPersonagemClick: (id: Int) -> Unit
 ) {
 
