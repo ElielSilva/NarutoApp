@@ -89,6 +89,11 @@ class CharacterRepositoryImpl(
         charactersDao.deleteAll()
     }
 
+    override suspend fun getFavorites(): ArrayList<CharactersEntity>? {
+        val result = charactersDao.getFavorite()
+        return result as ArrayList<CharactersEntity>?
+    }
+
     override suspend fun getLocal(): ArrayList<CharactersEntity> {
         return charactersDao.getAll() as ArrayList<CharactersEntity>
     }

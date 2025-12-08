@@ -9,6 +9,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.narutoapp.ui.character.CharacterScreen
 import com.example.narutoapp.ui.characterDetails.CharacterDetailsScreen
+import com.example.narutoapp.ui.favorite.FavoriteScreen
 import com.example.narutoapp.ui.login.LoginScreen
 
 @Composable
@@ -42,6 +43,10 @@ fun NavGraph(navController: NavHostController) {
             LoginScreen(onLoginSuccess = {
                 navController.navigate("Personagens")
             })
+        }
+
+        composable(Routes.Favoritos.route) {
+            FavoriteScreen()
         }
     }
 }
