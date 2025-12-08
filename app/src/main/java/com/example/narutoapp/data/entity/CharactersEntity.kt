@@ -11,7 +11,5 @@ class CharactersEntity(
     val family: Map<String, String>,
     val jutsu: List<String>,
     val clan: List<String>,
-    val isFavorite: Boolean = false
-
-
+    var isFavorite: Boolean = false,
 )

@@ -1,7 +1,10 @@
 package com.example.narutoapp.repository.character
 
+import androidx.lifecycle.MutableLiveData
 import com.example.narutoapp.data.dao.CharactersDao
+import com.example.narutoapp.data.entity.CharactersEntity
 import com.example.narutoapp.data.entity.toModel
+import com.example.narutoapp.models.Character
 import com.example.narutoapp.services.IClient
 import com.example.narutoapp.services.INarutoApi
 
@@ -31,12 +34,12 @@ class CharacterRepositoryImpl(
     private val charactersDao: CharactersDao
 ) : ICharacterRepository  {
 
-    private val instance: INarutoApi = clientService.getInstance().create()
+    private val instance: INarutoApi = clientService.getInstance().create(INarutoApi::class.java)
 
     override suspend fun toggleFavorite(id: Int) {
-        var character = charactersDao.getById(id) ?: return
-        val updated = character.copy(isFavorite = !character.isFavorite)
-        charactersDao.update(updated)
+        val character = charactersDao.getById(id)
+        character.isFavorite = !character.isFavorite
+        charactersDao.update( character)
     }
 
     override suspend fun getAll(): ArrayList<Character>? {
@@ -95,6 +98,30 @@ class CharacterRepositoryImpl(
 
             body
         } else null
+    }
+
+    override suspend fun save(character: CharactersEntity) {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun saveAll(characters: ArrayList<CharactersEntity>) {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun delete(id: Int) {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun deleteAll() {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getLocal(): ArrayList<CharactersEntity> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getLocalById(id: Int): CharactersEntity? {
+        TODO("Not yet implemented")
     }
 
 //

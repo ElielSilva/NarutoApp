@@ -15,7 +15,7 @@ interface CharactersDao {
     suspend fun getAll(): List<CharactersEntity>
 
     @Query("SELECT * FROM characters WHERE id = :id")
-    suspend fun getById(id: Int)
+    suspend fun getById(id: Int) : CharactersEntity
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(characters: List<CharactersEntity>)
@@ -33,5 +33,5 @@ interface CharactersDao {
     suspend fun updateFavorite(id: Int, value: Boolean)
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun update(update: Character)
+    suspend fun update(update: CharactersEntity)
 }
