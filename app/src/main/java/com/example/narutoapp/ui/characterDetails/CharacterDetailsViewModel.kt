@@ -3,26 +3,24 @@ package com.example.narutoapp.ui.characterDetails
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.narutoapp.repository.character.CharacterRepositoryImpl
-import com.example.narutoapp.services.ClientRetrofit
+import com.example.narutoapp.models.Character
+import com.example.narutoapp.repository.character.ICharacterRepository
 import com.example.narutoapp.utils.UiState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class CharacterDetailsViewModel(private val id: Int) : ViewModel() {
-    private val _uiState = MutableStateFlow<UiState<AllCharacterItem>>(UiState.Loading)
+class CharacterDetailsViewModel(
+    private val id: Int,
+    private val repository: ICharacterRepository
+) : ViewModel() {
+    private val _uiState = MutableStateFlow<UiState<Character>>(UiState.Loading)
     val uiState = _uiState.asStateFlow()
-
-    private val repository = CharacterRepositoryImpl(ClientRetrofit)
-
 
     init {
         fetch()
     }
-
-
     private fun fetch() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
@@ -49,12 +47,11 @@ class CharacterDetailsViewModel(private val id: Int) : ViewModel() {
             val updated = state.data.copy(
                 isFavorite = !state.data.isFavorite
             )
-
+            viewModelScope.launch(Dispatchers.IO) {
+                repository.toggleFavorite(updated.id)
+            }
 
             _uiState.value = UiState.Success(updated)
-
-
-            // repository.saveFavorite(updated)
         }
     }
 }

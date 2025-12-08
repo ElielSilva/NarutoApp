@@ -2,9 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
-
-//    id("com.google.devtools.ksp")
-    id("com.google.devtools.ksp") version "1.9.22-1.0.17"
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -31,11 +29,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_21
-        targetCompatibility = JavaVersion.VERSION_21
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "21"
+        jvmTarget = "17"
     }
     buildFeatures {
         viewBinding = true
@@ -44,7 +42,6 @@ android {
 }
 
 dependencies {
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
@@ -57,7 +54,7 @@ dependencies {
     implementation(libs.okhttp)
     implementation(libs.converter.gson)
     implementation(libs.kotlinx.coroutines.android)
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm")
+    implementation(libs.kotlinx.coroutines.core.jvm)
     implementation(libs.retrofit2.kotlin.coroutines.adapter)
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
@@ -67,21 +64,10 @@ dependencies {
     implementation(libs.picasso)
     implementation(libs.coil.compose)
     implementation(libs.androidx.navigation.compose)
-    implementation("androidx.compose.material:material-icons-extended:1.6.1")
+    implementation(libs.androidx.compose.material.icons.extended)
     implementation(libs.androidx.room.ktx)
-
-
-    val room_version = "2.8.4"
-
-    implementation("androidx.room:room-runtime:$room_version")
-
-    // KSP (necessário para Room)
-    ksp("androidx.room:room-compiler:$room_version")
-
-    // Extensions Kotlin
-    implementation("androidx.room:room-ktx:$room_version")
-
-    // Paging (opcional)
-    implementation("androidx.room:room-paging:$room_version")
-
+    implementation(libs.androidx.room.runtime)
+    ksp(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.room.paging)
 }

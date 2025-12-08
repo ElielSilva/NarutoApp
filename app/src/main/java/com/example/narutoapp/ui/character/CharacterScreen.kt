@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -29,18 +30,30 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.example.narutoapp.data.db.AppDatabase
 import com.example.narutoapp.models.Character
+import com.example.narutoapp.repository.character.CharacterRepositoryImpl
+import com.example.narutoapp.services.ClientRetrofit
 import com.example.narutoapp.utils.UiState
+import com.example.narutoapp.R
 
 @Composable
 fun CharacterScreen(
     onPersonagemClick: (id: Int) -> Unit = {},
-    characterViewModel: CharacterViewModel = viewModel()
+    characterViewModel: CharacterViewModel = viewModel(
+        factory = CharacterViewModelFactory(
+            CharacterRepositoryImpl(
+                ClientRetrofit.getInstance(),
+                AppDatabase.get(LocalContext.current).charactersDao()
+            )
+        )
+    )
 ) {
     val uiState by characterViewModel.uiState.collectAsState()
 
@@ -70,7 +83,7 @@ fun CharacterScreen(
                }
            }
            is UiState.Success -> {
-               val allCharacter = state.data
+               val allCharacter = state.data as List<Character>
 
                LazyColumn(
                    modifier = Modifier
@@ -79,7 +92,7 @@ fun CharacterScreen(
                    verticalArrangement = Arrangement.spacedBy(12.dp),
                    contentPadding = PaddingValues(8.dp)
                ) {
-                   items(allCharacter) { character ->
+                   items(items = allCharacter) { character ->
                        Log.d("PersonagemClick", "ID ${character.id} clicado. Chamando onPersonagemClick.")
                        CharacterItem(
                            character = character,
@@ -110,10 +123,14 @@ fun CharacterItem(
     ) {
         Row(
             modifier =
-                Modifier.padding(8.dp)
+                Modifier
+                    .padding(8.dp)
                     .fillMaxWidth()
                     .clickable {
-                        Log.d("PersonagemClick", "ID ${character.id} clicado. Chamando onPersonagemClick.")
+                        Log.d(
+                            "PersonagemClick",
+                            "ID ${character.id} clicado. Chamando onPersonagemClick."
+                        )
                         onPersonagemClick(character.id)
                     },
             verticalAlignment = Alignment.CenterVertically
@@ -123,23 +140,28 @@ fun CharacterItem(
             ) {
                 AsyncImage(
                     model = ImageRequest.Builder(context)
-                        .data(character.images.firstOrNull())
+                        .data(character.images?.firstOrNull())
                         .crossfade(true)
-                        .size(200)
+                        .size(70)
                         .build(),
                     modifier = Modifier
                         .border(
                             BorderStroke(2.dp, MaterialTheme.colorScheme.surface),
                             shape = CircleShape
-                        ).clip(
+                        )
+                        .size(70.dp)
+                        .clip(
                             CircleShape
                         ),
+                    placeholder = painterResource(R.drawable.pexels_photo),
+                    error = painterResource(R.drawable.pexels_photo),
+                    fallback = painterResource(R.drawable.pexels_photo),
                     contentDescription = "image of $character.name",
                     alignment = Alignment.Center
                 )
                 Spacer(modifier = Modifier.width(26.dp))
                 Text(
-                    text = character.name,
+                    text = character.name ?: "Nome Desconhecido",
                     style = MaterialTheme.typography.titleMedium,
                     overflow = TextOverflow.Ellipsis,
                     color = MaterialTheme.colorScheme.onBackground

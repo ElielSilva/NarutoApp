@@ -21,7 +21,7 @@ interface CharactersDao {
     suspend fun insertAll(characters: List<CharactersEntity>)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(character: CharactersEntity)
+    suspend fun insert(character: CharactersEntity): Long
 
     @Query("DELETE FROM characters WHERE id = :id")
     suspend fun deleteById(id: Int)
@@ -32,6 +32,6 @@ interface CharactersDao {
     @Query("UPDATE characters SET isFavorite = :value WHERE id = :id")
     suspend fun updateFavorite(id: Int, value: Boolean)
 
-    @Update(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun update(update: CharactersEntity)
+    @Update
+    suspend fun update(update: CharactersEntity) : Int
 }

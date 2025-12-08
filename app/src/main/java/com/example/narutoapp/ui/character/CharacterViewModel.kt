@@ -3,86 +3,45 @@ package com.example.narutoapp.ui.character
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.narutoapp.data.dao.CharactersDao
+import com.example.narutoapp.repository.character.ICharacterRepository
 import com.example.narutoapp.models.Character
-import com.example.narutoapp.repository.character.CharacterRepositoryImpl
-import com.example.narutoapp.services.ClientRetrofit
 import com.example.narutoapp.utils.UiState
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-//import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
-//class CharacterViewModel : ViewModel() {
-//    private val _uiState = MutableStateFlow<UiState<AllCharacter>>(UiState.Loading)
-//    val uiState = _uiState.asStateFlow()
-//    private val _repository = CharacterRepository(ClientRetrofit)
-//
-//    init {
-//        viewModelScope.launch {
-//            try {
-//                withContext(Dispatchers.IO) {
-//                    fetch()
-//                }
-//            } catch (ex: Exception) {
-//                _uiState.update {
-//                    UiState.Error(ex.message.toString())
-//                }
-//            }
-//        }
-//    }
-//
-//    private suspend fun fetch() {
-//
-//        viewModelScope.launch {
-//            try {
-//                val data = withContext(Dispatchers.IO) {
-//                    _repository.getAll()
-//                }
-//                if (data != null) {
-//                    _uiState.update {
-//                        UiState.Success(data)
-//                    }
-//                }
-//            } catch (ex: Exception) {
-//                _uiState.update {
-//                    UiState.Error(ex.message.toString())
-//                }
-//            }
-//        }
-//
-//
-//    }
-//}
+class CharacterViewModel(
+    private val repository: ICharacterRepository
+) : ViewModel() {
 
-class CharacterViewModel : ViewModel() {
-
-    private val _uiState = MutableStateFlow<UiState<ArrayList<Character>>>(UiState.Loading)
+    private val _uiState = MutableStateFlow<UiState<ArrayList<Character>?>>(UiState.Loading)
     val uiState = _uiState.asStateFlow()
 
-    private val repository = CharacterRepositoryImpl(ClientRetrofit, CharactersDao)
-
     init {
-        fetch()
+        loadCharacters()
     }
 
-    private fun fetch() {
-        viewModelScope.launch(Dispatchers.IO) {
+    fun loadCharacters() {
+        viewModelScope.launch {
+            _uiState.value = UiState.Loading
             try {
-                Log.d("CharacterViewModel", "Buscando personagens da API...")
-                val data = repository.getAll()
-                Log.d("CharacterViewModel", data.toString())
+                Log.d("CharacterViewModel", "Iniciando busca de personagens...")
+                val characters = repository.getAll()
+                Log.d("CharacterViewModel", characters.toString())
+                _uiState.value = UiState.Success(characters)
+            } catch (e: Exception) {
+                _uiState.value = UiState.Error(e.message ?: "Erro desconhecido")
+            }
+        }
+    }
 
-                if (data != null) {
-                    _uiState.value = UiState.Success(data)
-                } else {
-                    _uiState.value = UiState.Error("No data returned from repository")
-                }
-            } catch (ex: Exception) {
-                Log.e("CharacterViewModel", "Erro ao buscar personagens", ex)
-                _uiState.value = UiState.Error(ex.message ?: "Unknown error")
+    fun toggleFavorite(id: Int) {
+        viewModelScope.launch {
+            try {
+                repository.toggleFavorite(id)
+                loadCharacters()
+            } catch (e: Exception) {
+                _uiState.value = UiState.Error(e.message ?: "Erro ao favoritar")
             }
         }
     }

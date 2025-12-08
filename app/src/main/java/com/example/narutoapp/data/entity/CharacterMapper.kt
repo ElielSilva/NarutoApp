@@ -11,7 +11,7 @@ fun CharactersEntity.toModel(): Character {
         family = family,
         jutsu = jutsu,
         clan = clan,
-        isFavorite = false
+        isFavorite = isFavorite
     )
 }
 
@@ -23,6 +23,6 @@ fun Character.toEntity(): CharactersEntity {
         family = family,
         jutsu = jutsu,
         clan = clan,
-        isFavorite = false
+        isFavorite = isFavorite
     )
 }
