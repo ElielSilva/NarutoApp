@@ -33,15 +33,24 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.example.narutoapp.models.AllCharacterItem
-import com.example.narutoapp.ui.character.CharacterViewModel
+import com.example.narutoapp.data.db.AppDatabase
+import com.example.narutoapp.models.Character
+import com.example.narutoapp.repository.character.CharacterRepositoryImpl
+import com.example.narutoapp.services.ClientRetrofit
 import com.example.narutoapp.utils.UiState
 
 @Composable
 fun FavoriteScreen(
-    characterViewModel: CharacterViewModel = viewModel()
+    favoriteViewModel: FavoriteViewModel = viewModel(
+        factory = FavoriteViewModelFactory(
+             CharacterRepositoryImpl(
+                ClientRetrofit.getInstance(),
+                AppDatabase.get(LocalContext.current).charactersDao()
+            )
+        )
+    )
 ) {
-    val uiState by characterViewModel.uiState.collectAsState()
+    val uiState by favoriteViewModel.uiState.collectAsState()
     Surface(
         modifier = Modifier
             .fillMaxSize()
@@ -70,7 +79,7 @@ fun FavoriteScreen(
             }
 
             is UiState.Success -> {
-                val allCharacter = state.data
+                val allCharacter = state.data as ArrayList<Character>
 
                 LazyColumn(
                     modifier = Modifier
@@ -96,7 +105,7 @@ fun FavoriteScreen(
 
     @Composable
     fun FavoriteItem(
-        character: AllCharacterItem
+        character: Character
     ) {
 
         val context = LocalContext.current
@@ -119,23 +128,16 @@ fun FavoriteScreen(
                 ) {
                     AsyncImage(
                         model = ImageRequest.Builder(context)
-                            .data(character.images.firstOrNull())
+                            .data(character.images?.firstOrNull())
                             .crossfade(true)
-                            .size(200)
+                            .size(450)
                             .build(),
-                        modifier = Modifier
-                            .border(
-                                BorderStroke(2.dp, MaterialTheme.colorScheme.surface),
-                                shape = CircleShape
-                            ).clip(
-                                CircleShape
-                            ),
                         contentDescription = "image of $character.name",
                         alignment = Alignment.Center
                     )
                     Spacer(modifier = Modifier.width(26.dp))
                     Text(
-                        text = character.name,
+                        text = character.name ?: "Unknown",
                         style = MaterialTheme.typography.titleMedium,
                         overflow = TextOverflow.Ellipsis,
                         color = MaterialTheme.colorScheme.onBackground

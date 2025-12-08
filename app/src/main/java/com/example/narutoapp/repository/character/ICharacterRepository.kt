@@ -3,10 +3,6 @@ package com.example.narutoapp.repository.character
 import com.example.narutoapp.data.entity.CharactersEntity
 import com.example.narutoapp.models.Character
 
-//interface ICharacterRepository {
-//    suspend fun getAll(): AllCharacter?
-//    suspend fun getById(id: Int): AllCharacterItem?
-//}
 
 interface ICharacterRepository {
 
@@ -20,7 +16,7 @@ interface ICharacterRepository {
 
     suspend fun delete(id: Int)
     suspend fun deleteAll()
-
+    suspend fun getFavorites(): ArrayList<CharactersEntity>?
     suspend fun getLocal(): ArrayList<CharactersEntity>
     suspend fun getLocalById(id: Int): CharactersEntity?
 

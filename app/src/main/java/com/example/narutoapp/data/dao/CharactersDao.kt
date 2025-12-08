@@ -34,4 +34,8 @@ interface CharactersDao {
 
     @Update
     suspend fun update(update: CharactersEntity) : Int
+
+    suspend fun getFavorite(): List<CharactersEntity>? {
+        return getAll().filter { it.isFavorite }
+    }
 }
