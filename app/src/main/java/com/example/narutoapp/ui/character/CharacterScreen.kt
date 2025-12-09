@@ -61,7 +61,7 @@ fun CharacterScreen(
         modifier = Modifier
             .fillMaxSize()
             .padding(top = 24.dp),
-        color = MaterialTheme.colorScheme.background
+        color = MaterialTheme.colorScheme.inverseSurface
     ) {
        when (val state = uiState) {
            is UiState.Loading -> {
