@@ -93,9 +93,27 @@ Para testar a persistência e API:
 Certifique-se de ter conexão com a internet (para dados da API)
 
 
-#Prints e GIFs do App
+# Prints do App
 
+## Tela de Login
 
+<img src="app/src/main/java/com/example/narutoapp/ui/prints/login.jpeg" alt="Tela de Personagens" width="400"/>
+
+## Tela de personagens
+
+<img src="app/src/main/java/com/example/narutoapp/ui/prints/personagens.jpeg" alt="Tela de Personagens" width="400"/>
+
+## Tela de personagem
+
+<img src="app/src/main/java/com/example/narutoapp/ui/prints/personagem.jpeg" alt="Tela de Personagens" width="400"/>
+
+## Tela de favoritos
+
+<img src="app/src/main/java/com/example/narutoapp/ui/prints/favoritos.jpeg" alt="Tela de Personagens" width="400"/>
+
+## Tela de vilas
+
+<img src="app/src/main/java/com/example/narutoapp/ui/prints/vilas.jpeg" alt="Tela de Personagens" width="400"/>
 
 
 
