@@ -175,6 +175,4 @@ Certifique-se de ter conexão com a internet (para dados da API)
 
 
 
-Documentação gerada em: ```sh
-date +"%d/%m/%Y %T"
-```
+Documentação gerada em: terça-feira, 9 de dezembro de 2025 17:04:37
