@@ -54,20 +54,77 @@ Build System
 - Configuração modular e escalável
 
 # Estrutura
-- data/
-- - dao/ # Interfaces do Room para persistência
-- - entity/ # Entities do banco local
-- - db/ # Configuração do Room Database
-- models/ # Data classes: Character, Village
-- repository/
-- - character/ # Repositórios para personagens
-- - village/ # Repositórios para vilas
-- services/ # Retrofit API client e interfaces
-- ui/
-- - character/ # Screens e itens de UI de personagens
-- - village/ # Screens e itens de UI de vilas
-- utils/ # Helpers e classes utilitárias (ex: UiState)
-- MainActivity.kt # Entry point do app
+
+```shell
+│   MainActivity.kt
+├───data
+│   ├───dao
+│   │       CharactersDao.kt
+│   ├───db
+│   │       AppDatabase.kt
+│   └───entity
+│           CharacterMapper.kt
+│           CharactersEntity.kt
+├───models
+│       Character.kt
+│       Debut.kt
+│       Father.kt
+│       Image.kt
+│       Jutsu.kt
+│       LoginRequest.kt
+│       LoginResponse.kt
+│       LoginUiState.kt
+│       Mother.kt
+│       Personal.kt
+│       Village.kt
+├───navigation
+│       BottomBar.kt
+│       NavGraph.kt
+│       Routes.kt
+├───repository
+│   ├───auth
+│   │       AuthRepository.kt
+│   │       AuthRepositoryImpl.kt
+│   ├───character
+│   │       CharacterRepositoryImpl.kt
+│   │       ICharacterRepository.kt
+│   └───village
+│           IVillageRepository.kt
+│           VillageRepositoryImpl.kt
+├───services
+│       ClientRetrofit.kt
+│       IClient.kt
+│       INarutoApi.kt
+├───ui
+│   ├───character
+│   │       CharacterScreen.kt
+│   │       CharacterViewModel.kt
+│   │       CharacterViewModelFactory.kt
+│   ├───characterDetails
+│   │       CharacterDetailsScreen.kt
+│   │       CharacterDetailsViewModel.kt
+│   │       CharacterDetailsViewModelFactory.kt
+│   ├───favorite
+│   │       FavoriteScreen.kt
+│   │       FavoriteViewModel.kt
+│   │       FavoriteViewModelFactory.kt
+│   │
+│   ├───login
+│   │       LoginScreen.kt
+│   │       LoginViewModel.kt
+│   ├───theme
+│   │       Color.kt
+│   │       Theme.kt
+│   │       Type.kt
+│   └───village
+│           VillageScreen.kt
+│           VillageViewModel.kt
+│           VillageViewModelFactory.kt
+└───utils
+        Converts.kt
+        UiState.kt
+
+```
 
 ## 💻 Instruções de Instalação e Execução
 
@@ -118,4 +175,6 @@ Certifique-se de ter conexão com a internet (para dados da API)
 
 
 
-Documentação gerada em: 08-12-2025
+Documentação gerada em: ```sh
+date +"%d/%m/%Y %T"
+```
