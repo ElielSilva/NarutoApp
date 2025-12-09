@@ -1,6 +1,7 @@
 package com.example.narutoapp.services
 
 import com.example.narutoapp.models.Character
+import com.example.narutoapp.models.Village
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -11,4 +12,7 @@ interface INarutoApi {
 
     @GET("/characters/{id}")
     suspend fun getCharacter(@Path("id") id: Int) : Response<Character>
+
+    @GET("/villages")
+    suspend fun getAllVillages() : Response<ArrayList<Village>>
 }

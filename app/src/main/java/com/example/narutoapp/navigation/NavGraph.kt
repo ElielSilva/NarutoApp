@@ -11,6 +11,7 @@ import com.example.narutoapp.ui.character.CharacterScreen
 import com.example.narutoapp.ui.characterDetails.CharacterDetailsScreen
 import com.example.narutoapp.ui.favorite.FavoriteScreen
 import com.example.narutoapp.ui.login.LoginScreen
+import com.example.narutoapp.ui.village.VillageScreen
 
 @Composable
 fun NavGraph(navController: NavHostController) {
@@ -47,6 +48,10 @@ fun NavGraph(navController: NavHostController) {
 
         composable(Routes.Favoritos.route) {
             FavoriteScreen()
+        }
+
+        composable(Routes.Vilas.route) { 
+            VillageScreen()
         }
     }
 }
